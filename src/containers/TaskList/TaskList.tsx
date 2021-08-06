@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 import { Task, AddTask } from "./Task";
 
-const fromStorage: string | null = localStorage.getItem("todo");
-const startTasks: Task[] = fromStorage ? JSON.parse(fromStorage) : [];
+type Props = { storage: TaskStorage };
 
-const clearStorage = () => localStorage.setItem("todo", "");
-
-const saveTaskList = (tasks: Task[]) => {
-  localStorage.setItem("todo", JSON.stringify(tasks));
-};
-
-const TaskList: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>(startTasks);
+const TaskList: React.FC<Props> = (props) => {
+  const [tasks, setTasks] = useState<Task[]>(props.storage.get());
   const newTask: NewTask = (name: string) =>
       setTasks([...tasks, { name, time: Date.now(), done: false }]);
 
@@ -32,7 +25,7 @@ const TaskList: React.FC = () => {
     setTasks(newTasks);
   };
 
-  saveTaskList(tasks);
+  props.storage.add(tasks);
 
   return (
       <>
@@ -47,7 +40,7 @@ const TaskList: React.FC = () => {
         />
       ))}
     </ul>
-        <button onClick={() => clearStorage()}>Clear storage</button>
+        <button onClick={() => props.storage.clear()}>Clear storage</button>
       </>
   );
 };

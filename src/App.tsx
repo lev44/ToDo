@@ -1,10 +1,10 @@
 import React from "react";
-import "./App.css";
 import { TaskList } from "./containers";
+import { taskStorage} from "./data/task-storage";
 
 function App() {
   return (
-      <TaskList />
+      <TaskList storage={taskStorage}/>
   );
 }
 
