@@ -19,7 +19,7 @@ interface TaskProps {
   deleteTask: DeleteTask;
   toggleTask: ToggleTask;
 }
-
+/*
 interface TaskListProps {
   tasks: Task[];
   deleteTask: DeleteTask;
@@ -28,4 +28,4 @@ interface TaskListProps {
 
 interface ClearStorageProps {
   clearStorage: ClearStorage;
-}
+*/
