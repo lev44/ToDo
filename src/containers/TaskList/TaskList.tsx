@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Task, AddTask } from "./Task";
+import React, { useState } from "react";
+import { Task } from "./Task";
+import { AddTask } from "./AddTask";
 
 const TaskList: React.FC<TaskListProps> = ({ storage}) => {
-  const [tasks, setTasks] = useState<Task[]>(storage.get());
+  const [tasks, setTasks] = useState<Task[]>(storage.getAll());
 
   const newTask: NewTask = (name: string) => {
     const newTodo = {name, time: Date.now(), done: false};
     setTasks([...tasks, newTodo]);
-//    storage.add(newTodo);
-  }
+    storage.add(newTodo);
+  };
 
   const deleteTask = (selectedTask: Task) => {
     const newTasks: Task[] = tasks.filter(
         (task: Task) => task !== selectedTask
     );
-//    storage.delete(selectedTask);
+    storage.delete(selectedTask);
     setTasks(newTasks);
   };
 
@@ -25,16 +26,14 @@ const TaskList: React.FC<TaskListProps> = ({ storage}) => {
       }
       return task;
     });
-//    storage.toggle(selectedTask);
+    storage.update(selectedTask);
     setTasks(newTasks);
   };
 
   const clearStorage = () => {
-//    storage.clear();
+    storage.deleteAll();
     setTasks([]);
-  }
-
-  useEffect(() => {storage.save(tasks)});
+  };
 
   return (
       <>

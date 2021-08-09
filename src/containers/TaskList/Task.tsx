@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Task: React.FC<TaskProps> = ({ todo, deleteTask, toggleTask }) => {
-  return (
+export const Task: React.FC<TaskProps> = ({ todo, deleteTask, toggleTask }) => {
+    return (
     <li>
       <button onClick={() => deleteTask(todo)}>Delete</button>{" "}
       <input
@@ -11,34 +11,9 @@ const Task: React.FC<TaskProps> = ({ todo, deleteTask, toggleTask }) => {
           toggleTask(todo);
         }}
       />{" "}
-      {todo.name}
+      <span style={{ textDecoration: todo.done ? "line-through" : "none" }}>
+        {todo.name}
+      </span>
     </li>
   );
 };
-
-const AddTask: React.FC<NewTaskProps> = ({ newTask }) => {
-  const [name, setName] = useState<string>("");
-  return (
-    <form>
-      <button
-        type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          if (name) {
-            newTask(name);
-            setName("");
-          }
-        }}
-      >
-        Add new task
-      </button>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-    </form>
-  );
-};
-
-export { Task, AddTask };

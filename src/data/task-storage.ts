@@ -1,28 +1,25 @@
-import {Task} from "../containers/TaskList/Task";
-
 export const taskStorage = {
-    get: () => JSON.parse(localStorage.getItem("todo") || "[]"),
-    clear: () => {localStorage.setItem("todo", "")},
-    add: (task: Task) => {
-        const newStorage = [ ...taskStorage.get(), task ];
-        localStorage.setItem("todo", JSON.stringify(newStorage));
-    },
-    delete: (selectedTask: Task) => {
-        const newStorage = taskStorage.get().filter(
-            (task: Task) => task.time !== selectedTask.time
-        );
-        localStorage.setItem("todo", JSON.stringify(newStorage));
-    },
-    toggle: (selectedTask: Task) => {
-        const newStorage = taskStorage.get().map((task: Task) => {
-            if (task.time === selectedTask.time) {
-                return { ...task, done: !task.done };
+    get: (task: Task) => JSON.parse(localStorage.getItem(task.time.toString()) || ""),
+    getAll: () => {
+        const tasks = [];
+        for (let  i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            if (key) {
+                tasks.push(JSON.parse(localStorage.getItem(key) || ""));
             }
-            return task;
-        });
-        localStorage.setItem("todo", JSON.stringify(newStorage));
+        }
+        return tasks.sort((a, b) => a.time - b.time);
     },
-    save: (tasks: Task[]) => {
-        localStorage.setItem("todo", JSON.stringify(tasks));
+    add: (task: Task) => {
+        localStorage.setItem(task.time.toString(), JSON.stringify(task));
     },
+    update: (selectedTask: Task) => {
+        const updatedTask = { ...selectedTask, done: !selectedTask.done };
+        localStorage.setItem(selectedTask.time.toString(), JSON.stringify(updatedTask));
+    },
+
+    delete: (selectedTask: Task) => {
+        localStorage.removeItem(selectedTask.time.toString());
+    },
+    deleteAll: () => {localStorage.clear()},
 }

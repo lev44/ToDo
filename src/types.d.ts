@@ -20,38 +20,14 @@ interface TaskProps {
 }
 
 interface TaskStorage {
-  get: () => Task[],
+  get: (task: Task) => Task;
+  getAll: () => Task[],
   add: (task: Task) => void,
   delete: (task: Task) => void,
-  toggle: (task: Task) => void,
-  clear: () => void,
-  save: (tasks: Task[]) => void,
+  update: (task: Task) => void,
+  deleteAll: () => void,
 }
 
 interface TaskListProps {
   storage: TaskStorage
 }
-
-
-/*
-declare global {
-  export type TaskStorage = {
-    get: () => Task[],
-    add: (task: Object) => void,
-    clear: () => void,
-  };
-}
-*/
-
-
-
-/*
-interface TaskListProps {
-  tasks: Task[];
-  deleteTask: DeleteTask;
-  toggleTask: ToggleTask;
-}
-
-interface ClearStorageProps {
-  clearStorage: ClearStorage;
-*/
