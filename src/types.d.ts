@@ -12,7 +12,6 @@ interface NewTaskProps {
 
 type DeleteTask = (selectedTask: Task) => void;
 type ToggleTask = (selectedTask: Task) => void;
-// type ClearStorage = () => void;
 
 interface TaskProps {
   todo: Task;
@@ -20,11 +19,19 @@ interface TaskProps {
   toggleTask: ToggleTask;
 }
 
-type TaskStorage = {
+interface TaskStorage {
   get: () => Task[],
-  add: (tasks: Task[]) => void,
+  add: (task: Task) => void,
+  delete: (task: Task) => void,
+  toggle: (task: Task) => void,
   clear: () => void,
-};
+  save: (tasks: Task[]) => void,
+}
+
+interface TaskListProps {
+  storage: TaskStorage
+}
+
 
 /*
 declare global {

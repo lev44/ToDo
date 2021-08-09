@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Task, AddTask } from "./Task";
 
-type Props = { storage: TaskStorage };
+const TaskList: React.FC<TaskListProps> = ({ storage}) => {
+  const [tasks, setTasks] = useState<Task[]>(storage.get());
 
-const TaskList: React.FC<Props> = (props) => {
-  const [tasks, setTasks] = useState<Task[]>(props.storage.get());
-  const newTask: NewTask = (name: string) =>
-      setTasks([...tasks, { name, time: Date.now(), done: false }]);
+  const newTask: NewTask = (name: string) => {
+    const newTodo = {name, time: Date.now(), done: false};
+    setTasks([...tasks, newTodo]);
+//    storage.add(newTodo);
+  }
 
   const deleteTask = (selectedTask: Task) => {
     const newTasks: Task[] = tasks.filter(
         (task: Task) => task !== selectedTask
     );
+//    storage.delete(selectedTask);
     setTasks(newTasks);
   };
 
@@ -22,10 +25,16 @@ const TaskList: React.FC<Props> = (props) => {
       }
       return task;
     });
+//    storage.toggle(selectedTask);
     setTasks(newTasks);
   };
 
-  props.storage.add(tasks);
+  const clearStorage = () => {
+//    storage.clear();
+    setTasks([]);
+  }
+
+  useEffect(() => {storage.save(tasks)});
 
   return (
       <>
@@ -40,7 +49,7 @@ const TaskList: React.FC<Props> = (props) => {
         />
       ))}
     </ul>
-        <button onClick={() => props.storage.clear()}>Clear storage</button>
+        <button onClick={() => clearStorage()}>Delete all tasks</button>
       </>
   );
 };
