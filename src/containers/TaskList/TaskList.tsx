@@ -35,6 +35,10 @@ const TaskList: React.FC<TaskListProps> = ({ storage }) => {
     setTasks([]);
   };
 
+  const handleClick = () => {
+    clearStorage();
+  };
+
   return (
     <>
       <AddTask newTask={newTask} />
@@ -48,7 +52,7 @@ const TaskList: React.FC<TaskListProps> = ({ storage }) => {
           />
         ))}
       </ul>
-      <button type="button" onClick={() => clearStorage()}>Delete all tasks</button>
+      <button type="button" onClick={handleClick}>Delete all tasks</button>
     </>
   );
 };
