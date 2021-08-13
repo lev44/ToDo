@@ -6,7 +6,7 @@ const TaskList: React.FC<TaskListProps> = ({ storage }) => {
   const [tasks, setTasks] = useState<Task[]>(storage.getAll());
 
   const newTask: NewTask = (name: string) => {
-    const newTodo = { name, time: Date.now(), done: false };
+    const newTodo = { name, createdAt: Date.now(), done: false };
     setTasks([...tasks, newTodo]);
     storage.add(newTodo);
   };
@@ -41,7 +41,7 @@ const TaskList: React.FC<TaskListProps> = ({ storage }) => {
       <ul>
         {tasks.map((task) => (
           <Task
-            key={task.time.toString()}
+            key={task.createdAt.toString()}
             todo={task}
             deleteTask={deleteTask}
             toggleTask={toggleTask}
