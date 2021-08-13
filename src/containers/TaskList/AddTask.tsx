@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 export const AddTask: React.FC<NewTaskProps> = ({ newTask }) => {
   const [name, setName] = useState<string>('');
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    if (name) {
+      newTask(name);
+      setName('');
+    }
+  };
   return (
     <form>
       <button
         type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          if (name) {
-            newTask(name);
-            setName('');
-          }
-        }}
+        onClick={handleClick}
       >
         Add new task
       </button>
       <input
         type="text"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={handleChange}
       />
     </form>
   );
